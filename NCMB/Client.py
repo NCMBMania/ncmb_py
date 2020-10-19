@@ -3,6 +3,7 @@ import urllib.parse
 from NCMB.NCMBObject import NCMBObject
 from NCMB.NCMBRequest import NCMBRequest
 from NCMB.NCMBSignature import NCMBSignature
+from NCMB.NCMBQuery import NCMBQuery
 
 class NCMB:
   fqdn = 'mbaas.api.nifcloud.com'
@@ -17,11 +18,13 @@ class NCMB:
     self.sessionToken = None
     NCMBObject.NCMB = self
     NCMBRequest.NCMB = self
-    NCMBSignature.ncmb = self
+    NCMBSignature.NCMB = self
+    NCMBQuery.NCMB = self
 
   def Object(self, class_name):
     return NCMBObject(class_name)
-
+  def Query(self, class_name):
+    return NCMBQuery(class_name)
   def path(self, class_name, objectId):
     if class_name[0] == '/':
       return f'/{NCMB.version}{class_name}/{objectId or ""}'
@@ -33,10 +36,15 @@ class NCMB:
     encoded_queries = []
     for key in sorted(queries.items(), key=lambda x:x[0]):
       value = queries[key[0]]
+      if value is None:
+        continue
       if type(value) in (list, dict):
         value = json.dumps(value, separators=(',', ':'))
       safe = ":" if key[0] == 'X-NCMB-Timestamp' else ""
-      encoded_queries.append(f'{key[0]}={urllib.parse.quote(value, safe=safe)}')
+      if type(value) is int:
+        encoded_queries.append(f'{key[0]}={value}')
+      else:
+        encoded_queries.append(f'{key[0]}={urllib.parse.quote(value, safe=safe)}')
     return '&'.join(encoded_queries)
   def url(self, class_name, queries, objectId):
     query = self.encodeQuery(queries)

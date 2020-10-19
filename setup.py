@@ -2,7 +2,7 @@ import setuptools
  
 setuptools.setup(
     name="NCMB",
-    version="1.0",
+    version="1.1.0",
     author="goofmint",
     author_email="atsushi@moongift.jp",
     description="NCMB is client SDK for Nifcloud mobile backend",
@@ -11,10 +11,9 @@ setuptools.setup(
     url="https://mbaas.nifcloud.com/",
     packages=setuptools.find_packages(),
     install_requires=[
-      'requests'
     ],
     classifiers=[
-        "Programming Language :: Python :: 3.8.5",
+        "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ]

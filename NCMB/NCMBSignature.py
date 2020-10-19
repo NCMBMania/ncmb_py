@@ -5,7 +5,7 @@ import NCMB.Client
 import copy
 
 class NCMBSignature:
-  ncmb = None
+  NCMB = None
   signatureMethodName = 'SignatureMethod'
   signatureMethodValue = 'HmacSHA256'
   signatureVersionName = 'SignatureVersion'
@@ -13,7 +13,7 @@ class NCMBSignature:
 
   @classmethod
   def create(self, method, time, class_name, queries = {}, objectId = None):
-    ncmb = NCMBSignature.ncmb
+    ncmb = NCMBSignature.NCMB
     path = ncmb.path(class_name, objectId)
     queries = copy.copy(queries)
     queries[NCMBSignature.signatureMethodName] = NCMBSignature.signatureMethodValue
