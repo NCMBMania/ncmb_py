@@ -13,7 +13,9 @@ class NCMBRequest:
   def put(self, class_name, data, objectId):
     # Update data
     return self.exec("PUT", class_name, {}, data, objectId)
-
+  def get(self, class_name, queries, objectId = None):
+    # Retribute data
+    return self.exec("GET", class_name, queries, {}, objectId)
   def exec(self, method, class_name, queries, data, objectId = None):
     time = datetime.datetime.now().isoformat()
     # Generate signature
