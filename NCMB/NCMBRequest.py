@@ -26,8 +26,8 @@ class NCMBRequest:
     }
     headers[NCMB.Client.NCMB.applicationKeyName] = self.NCMB.applicationKey
     headers[NCMB.Client.NCMB.timestampName] = time
-    if self.NCMB.sessionToken is not None:
-      headers[NCMB.Client.NCMB.sessionTokenHeader] = self.NCMB.sessionToken
+    if self.NCMB.session_token is not None:
+      headers[NCMB.Client.NCMB.sessionTokenHeader] = self.NCMB.session_token
     url = self.NCMB.url(class_name, queries, objectId)
     res = self.fetch(method, url, headers, data)
     if 'code' in res:

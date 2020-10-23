@@ -4,6 +4,8 @@ from NCMB.NCMBObject import NCMBObject
 from NCMB.NCMBRequest import NCMBRequest
 from NCMB.NCMBSignature import NCMBSignature
 from NCMB.NCMBQuery import NCMBQuery
+from NCMB.NCMBAcl import NCMBAcl
+from NCMB.NCMBUser import NCMBUser
 
 class NCMB:
   fqdn = 'mbaas.api.nifcloud.com'
@@ -15,16 +17,20 @@ class NCMB:
   def __init__(self, applicationKey, clientKey):
     self.applicationKey = applicationKey
     self.clientKey = clientKey
-    self.sessionToken = None
+    self.session_token = None
     NCMBObject.NCMB = self
     NCMBRequest.NCMB = self
     NCMBSignature.NCMB = self
     NCMBQuery.NCMB = self
+    NCMBUser.NCMB = self
+    self.User = NCMBUser
 
   def Object(self, class_name):
     return NCMBObject(class_name)
   def Query(self, class_name):
     return NCMBQuery(class_name)
+  def Acl(self):
+    return NCMBAcl()
   def path(self, class_name, objectId):
     if class_name[0] == '/':
       return f'/{NCMB.version}{class_name}/{objectId or ""}'
@@ -40,6 +46,8 @@ class NCMB:
         continue
       if type(value) in (list, dict):
         value = json.dumps(value, separators=(',', ':'))
+      if 'to_json' in dir(value)
+        value = value.to_json()
       safe = ":" if key[0] == 'X-NCMB-Timestamp' else ""
       if type(value) is int:
         encoded_queries.append(f'{key[0]}={value}')

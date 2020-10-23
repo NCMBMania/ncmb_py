@@ -75,6 +75,29 @@ query.order('updateDate') # 並び替え
 query.skip(100) # スキップする件数
 ```
 
+## ACL
+
+ACLは NCMBAcl を使います。
+
+```py
+acl = ncmb.Acl()
+```
+
+メソッドは下記が用意されています。
+
+- set_public_read_access(self, bol):
+- set_public_write_access(self, bol):
+- set_user_read_access(self, user, bol):
+- set_user_write_access(self, user, bol):
+- set_role_read_access(self, role, bol):
+- set_role_write_access(self, role, bol):
+
+権限を適用した後、setで設定してください。
+
+```py
+obj.set('acl', acl)
+```
+
 # LICENSE
 
 MIT.
