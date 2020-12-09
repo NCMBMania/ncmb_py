@@ -6,6 +6,7 @@ from NCMB.NCMBSignature import NCMBSignature
 from NCMB.NCMBQuery import NCMBQuery
 from NCMB.NCMBAcl import NCMBAcl
 from NCMB.NCMBUser import NCMBUser
+from NCMB.NCMBGeoPoint import NCMBGeoPoint
 
 class NCMB:
   fqdn = 'mbaas.api.nifcloud.com'
@@ -31,6 +32,8 @@ class NCMB:
     return NCMBQuery(class_name)
   def Acl(self):
     return NCMBAcl()
+  def GeoPoint(self, lat, lng):
+    return NCMBGeoPoint(lat, lng)
   def path(self, class_name, objectId):
     if class_name[0] == '/':
       return f'/{NCMB.version}{class_name}/{objectId or ""}'
@@ -46,8 +49,6 @@ class NCMB:
         continue
       if type(value) in (list, dict):
         value = json.dumps(value, separators=(',', ':'))
-      if 'to_json' in dir(value)
-        value = value.to_json()
       safe = ":" if key[0] == 'X-NCMB-Timestamp' else ""
       if type(value) is int:
         encoded_queries.append(f'{key[0]}={value}')

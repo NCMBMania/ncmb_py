@@ -1,11 +1,9 @@
-import 'json'
-
 class NCMBAcl:
   def __init__(self):
     self.permissions = {
       '*': {
-        'read': true,
-        'write': true
+        'read': True,
+        'write': True
       }
     }
   def set_public_read_access(self, bol):
@@ -33,6 +31,6 @@ class NCMBAcl:
         if acl in self.permissions[key] and self.permissions[key][acl]:
           if key not in res:
             res[key] = {}
-          res[key][acl] = true
-    return json.dumps(res)
+          res[key][acl] = True
+    return res
 

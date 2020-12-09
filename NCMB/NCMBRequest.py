@@ -3,6 +3,7 @@ import copy
 import json
 import urllib.request
 from NCMB.NCMBSignature import NCMBSignature
+import NCMB.NCMBObject
 import NCMB.Client
 
 class NCMBRequest:
@@ -40,10 +41,19 @@ class NCMBRequest:
     for key in ['createData', 'updateDate', 'objectId']:
       if key in data.keys():
         data.pop(key)
+    for key in data.keys():
+      if type(data[key]) in [datetime.datetime, datetime.date]:
+        data[key] = {
+          '__type': 'Date',
+          'iso': data[key].strftime('%Y-%m-%dT%H:%M:%S.%fZ').replace('000Z', 'Z')
+        }
+      if 'to_json' in dir(data[key]):
+        data[key] = data[key].to_json()
     return data
   def fetch(self, method, url, headers, data):
     if method in ['POST', 'PUT']:
       data = self.data(data)
+      print(data)
     try:
       req = urllib.request.Request(url, data=json.dumps(data, separators=(',', ':')).encode(), method=method, headers=headers)
       with urllib.request.urlopen(req) as res:

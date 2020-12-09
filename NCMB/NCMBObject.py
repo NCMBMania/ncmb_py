@@ -25,3 +25,11 @@ class NCMBObject:
       # Create new object
       d = req.post(self.class_name, self.fields)
     self.sets(d)
+  def to_json(self):
+    if self.get('objectId') == None:
+      self.save()
+    return {
+      '__type': 'Pointer',
+      'className': self.class_name,
+      'objectId': self.get('objectId')
+    }

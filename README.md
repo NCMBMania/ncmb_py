@@ -1,6 +1,6 @@
 # NCMB Python SDK
 
-ニフクラ mobile backendを利用するためのPython SDKです。
+ニフクラmobile backendを利用するためのPython SDKです。
 
 # 使い方
 
@@ -32,7 +32,7 @@ obj.set(
 ).save()
 ```
 
-カラムへのアクセスは get を使います。
+カラムへのアクセスはgetを使います。
 
 ```py
 print(obj.get('objectId'))
@@ -77,7 +77,7 @@ query.skip(100) # スキップする件数
 
 ## ACL
 
-ACLは NCMBAcl を使います。
+ACLはNCMBAclを使います。
 
 ```py
 acl = ncmb.Acl()
@@ -96,6 +96,26 @@ acl = ncmb.Acl()
 
 ```py
 obj.set('acl', acl)
+```
+
+## 位置情報
+
+位置情報の保存はNCMBGeoPointを使います。
+
+```py
+geo = ncmb.GeoPoint(35.658611, 139.745556)
+```
+
+## ポインタ
+
+オブジェクトどうしの関連付けはポインタを利用します。NCMBObjectを関連付けてください。
+
+```py
+obj1 = ncmb.Object('Test1')
+obj2 = ncmb.Object('Test2')
+
+obj2.set('obj', obj1)
+obj2.save()
 ```
 
 # LICENSE
